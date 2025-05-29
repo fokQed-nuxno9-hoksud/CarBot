@@ -1,0 +1,1186 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CaroBot - Intelligent Companion Robot</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Arial', '微軟正黑體', sans-serif;
+    }
+    
+    :root {
+      --primary: #ff7e5f;
+      --secondary: #feb47b;
+      --accent: #4da9ff;
+      --light: #fff9f5;
+      --dark: #2d3e50;
+      --text: #333;
+      --bg-cream: #fef6eb;
+    }
+    
+    body {
+      background-color: var(--light);
+      color: var(--text);
+      line-height: 1.6;
+    }
+    
+    header {
+      background: var(--bg-cream);
+      color: var(--dark);
+      padding: 2rem 1rem;
+      text-align: center;
+    }
+    
+    .logo-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      margin-bottom: 1rem;
+      flex-wrap: wrap;
+    }
+    
+    .logo-image {
+      width: clamp(60px, 10vw, 100px);
+      height: clamp(60px, 10vw, 100px);
+      border-radius: 50%;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    
+    .logo {
+      font-size: clamp(2.5rem, 8vw, 4rem);
+      font-weight: bold;
+      color: var(--dark);
+    }
+    
+    .tagline {
+      font-size: clamp(1rem, 3vw, 1.5rem);
+      margin-bottom: 1rem;
+      color: var(--dark);
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    
+    .sub-tagline {
+      font-size: clamp(0.9rem, 2.5vw, 1.2rem);
+      color: var(--dark);
+    }
+    
+    nav {
+      background-color: var(--dark);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    
+    .nav-container {
+      display: flex;
+      flex-direction: column;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1rem;
+    }
+    
+    .nav-main {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+    }
+    
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    
+    .mobile-menu-toggle {
+      display: none;
+      background: none;
+      border: none;
+      color: white;
+      font-size: 1.5rem;
+      cursor: pointer;
+      padding: 1rem;
+    }
+    
+    nav ul {
+      display: flex;
+      list-style: none;
+      flex-wrap: wrap;
+    }
+    
+    nav a {
+      display: block;
+      color: white;
+      text-align: center;
+      padding: 1rem 1rem;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      font-size: clamp(0.8rem, 2vw, 1rem);
+    }
+    
+    nav a:hover {
+      background-color: var(--primary);
+    }
+    
+    .language-dropdown {
+      position: relative;
+      display: inline-block;
+    }
+    
+    .dropbtn {
+      background-color: var(--dark);
+      color: white;
+      padding: 0.75rem 1rem;
+      font-size: clamp(0.8rem, 2vw, 1rem);
+      border: none;
+      cursor: pointer;
+    }
+    
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      right: 0;
+      background-color: var(--dark);
+      min-width: 120px;
+      box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
+      z-index: 1;
+    }
+    
+    .dropdown-content a {
+      color: white;
+      padding: 0.75rem 1rem;
+      text-decoration: none;
+      display: block;
+    }
+    
+    .dropdown-content a:hover {
+      background-color: var(--primary);
+    }
+    
+    .language-dropdown:hover .dropdown-content {
+      display: block;
+    }
+    
+    .nav-cta {
+      display: flex;
+      align-items: center;
+    }
+    
+    .cta-button {
+      background-color: var(--accent);
+      color: white;
+      border: none;
+      padding: 0.8rem 1.5rem;
+      border-radius: 30px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-size: clamp(0.8rem, 2vw, 1rem);
+    }
+    
+    .cta-button:hover {
+      background-color: #3d8de0;
+      transform: translateY(-2px);
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 1rem;
+    }
+    
+    .hero {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      margin: 2rem 0;
+      background-color: var(--bg-cream);
+      border-radius: 15px;
+      overflow: hidden;
+      min-height: auto;
+    }
+    
+    .hero-image {
+      flex: 1;
+      min-width: 280px;
+      text-align: center;
+      padding: 1rem;
+    }
+    
+    .hero-image img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 10px;
+      max-height: 500px;
+      object-fit: contain;
+    }
+    
+    .hero-content {
+      flex: 1;
+      min-width: 280px;
+      padding: 2rem;
+    }
+    
+    .hero-title {
+      font-size: clamp(1.5rem, 4vw, 2.5rem);
+      margin-bottom: 1rem;
+      color: var(--dark);
+    }
+    
+    .hero-text {
+      font-size: clamp(0.9rem, 2.5vw, 1.1rem);
+      margin-bottom: 2rem;
+      line-height: 1.6;
+    }
+    
+    .banner {
+      width: 100%;
+      background-color: var(--bg-cream);
+      text-align: center;
+      padding: 2rem 0;
+      margin-bottom: 2rem;
+    }
+    
+    .banner img {
+      max-width: 90%;
+      height: auto;
+      margin: 0 auto;
+      display: block;
+      border-radius: 10px;
+    }
+    
+    .features {
+      padding: 3rem 0;
+      background-color: white;
+    }
+    
+    .section-title {
+      text-align: center;
+      font-size: clamp(1.5rem, 4vw, 2rem);
+      margin-bottom: 2rem;
+      color: var(--primary);
+    }
+    
+    .features-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+      padding: 0 1rem;
+    }
+    
+    .feature-card {
+      background-color: var(--light);
+      border-radius: 10px;
+      padding: 2rem;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+      transition: all 0.3s ease;
+      text-align: center;
+    }
+    
+    .feature-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+    }
+    
+    .feature-icon {
+      font-size: clamp(2rem, 5vw, 3rem);
+      margin-bottom: 1rem;
+      color: var(--accent);
+    }
+    
+    .feature-title {
+      font-size: clamp(1.2rem, 3vw, 1.5rem);
+      margin-bottom: 1rem;
+      color: var(--dark);
+    }
+    
+    .feature-text {
+      font-size: clamp(0.9rem, 2vw, 1rem);
+      line-height: 1.6;
+    }
+    
+    .qr-code-section {
+      background-color: #f4f4f4;
+      padding: 3rem 0;
+      text-align: center;
+    }
+    
+    .qr-code-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 2rem;
+      padding: 2rem;
+      background: white;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      margin: 0 1rem;
+    }
+    
+    .qr-code-container img {
+      width: 100%;
+      max-width: 200px;
+      height: auto;
+      margin: 0 auto;
+    }
+    
+    .subscription {
+      background: linear-gradient(135deg, var(--secondary), var(--primary));
+      color: white;
+      padding: 3rem 0;
+    }
+    
+    .subscription-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+      padding: 0 1rem;
+    }
+    
+    .plan-card {
+      background-color: white;
+      color: var(--text);
+      border-radius: 10px;
+      padding: 2rem;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+    
+    .plan-title {
+      font-size: clamp(1.3rem, 3vw, 1.8rem);
+      margin-bottom: 1rem;
+      color: var(--primary);
+      text-align: center;
+    }
+    
+    .plan-price {
+      font-size: clamp(2rem, 5vw, 2.5rem);
+      margin-bottom: 2rem;
+      color: var(--dark);
+      text-align: center;
+    }
+    
+    .plan-features {
+      list-style: none;
+      margin-bottom: 2rem;
+    }
+    
+    .plan-features li {
+      padding: 0.75rem 0;
+      border-bottom: 1px solid #eee;
+      font-size: clamp(0.9rem, 2vw, 1rem);
+    }
+    
+    .plan-features li:before {
+      content: "✓";
+      color: var(--accent);
+      margin-right: 0.5rem;
+      font-weight: bold;
+    }
+    
+    .testimonials {
+      padding: 3rem 0;
+      background-color: var(--light);
+    }
+    
+    .testimonial-card {
+      background-color: white;
+      border-radius: 10px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+      margin: 1rem;
+    }
+    
+    .testimonial-text {
+      font-style: italic;
+      margin-bottom: 1rem;
+      font-size: clamp(0.9rem, 2vw, 1rem);
+      line-height: 1.6;
+    }
+    
+    .testimonial-author {
+      font-weight: bold;
+      color: var(--primary);
+      font-size: clamp(0.8rem, 2vw, 0.9rem);
+    }
+    
+    .video-section {
+      padding: 2rem 0;
+      text-align: center;
+    }
+    
+    .video-section video {
+      width: 100%;
+      max-width: 800px;
+      height: auto;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      margin-bottom: 2rem;
+    }
+    
+    .contact {
+      background-color: var(--dark);
+      color: white;
+      padding: 3rem 0;
+    }
+    
+    .contact-form {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 0 1rem;
+    }
+    
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+    
+    .form-label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-size: clamp(0.9rem, 2vw, 1rem);
+    }
+    
+    .form-input {
+      width: 100%;
+      padding: 1rem;
+      border: none;
+      border-radius: 5px;
+      font-size: clamp(0.9rem, 2vw, 1rem);
+    }
+    
+    textarea.form-input {
+      min-height: 120px;
+      resize: vertical;
+    }
+    
+    footer {
+      background-color: #2d3e50;
+      color: white;
+      padding: 3rem 0 1rem 0;
+    }
+    
+    .footer-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+    
+    .footer-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 3rem;
+      margin-bottom: 2rem;
+    }
+    
+    .footer-column h3 {
+      color: var(--accent);
+      font-size: 1.2rem;
+      margin-bottom: 0.5rem;
+      font-weight: bold;
+    }
+    
+    .company-subtitle {
+      color: #bbb;
+      font-size: 0.9rem;
+      margin-bottom: 1rem;
+    }
+    
+    .company-info {
+      margin-bottom: 1.5rem;
+    }
+    
+    .company-info p {
+      color: #ccc;
+      font-size: 0.9rem;
+      margin-bottom: 0.3rem;
+    }
+    
+    .service-hours h4,
+    .footer-column h4 {
+      color: white;
+      font-size: 1rem;
+      margin: 1rem 0 0.5rem 0;
+      font-weight: bold;
+    }
+    
+    .service-hours p {
+      color: #ccc;
+      font-size: 0.9rem;
+      margin-bottom: 0.2rem;
+    }
+    
+    .location-block {
+      margin-bottom: 1.5rem;
+    }
+    
+    .location-block h4 {
+      color: white;
+      font-size: 1rem;
+      margin-bottom: 0.3rem;
+    }
+    
+    .location-block p {
+      color: #ccc;
+      font-size: 0.9rem;
+      margin-bottom: 0.2rem;
+    }
+    
+    .parking {
+      color: #999 !important;
+      font-size: 0.8rem !important;
+    }
+    
+    .group-info {
+      margin-bottom: 1rem;
+    }
+    
+    .group-info h4 {
+      color: white;
+      font-size: 1rem;
+      margin-bottom: 0.3rem;
+    }
+    
+    .group-info p {
+      color: #ccc;
+      font-size: 0.9rem;
+      margin-bottom: 0.2rem;
+    }
+    
+    .contact-section {
+      margin-top: 1.5rem;
+    }
+    
+    .contact-section h4 {
+      color: white;
+      font-size: 1rem;
+      margin-bottom: 0.3rem;
+    }
+    
+    .contact-section p {
+      color: #ccc;
+      font-size: 0.9rem;
+      margin-bottom: 0.2rem;
+    }
+    
+    .footer-social-section {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 2rem 0;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      margin-bottom: 1.5rem;
+    }
+    
+    .social-icons {
+      display: flex;
+      gap: 1rem;
+    }
+    
+    .social-link {
+      background-color: #fff;
+      color: #2d3e50;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 0.8rem;
+      transition: all 0.3s ease;
+    }
+    
+    .social-link:hover {
+      background-color: var(--accent);
+      color: white;
+      transform: translateY(-2px);
+    }
+    
+    .footer-qr-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    
+    .footer-qr-code {
+      width: 80px;
+      height: 80px;
+      background: white;
+      padding: 5px;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    }
+    
+    .qr-description {
+      font-size: 0.8rem;
+      color: #ccc;
+      text-align: center;
+      margin: 0;
+    }
+    
+    .footer-copyright {
+      text-align: center;
+      padding-top: 1rem;
+      border-top: 1px solid rgba(255,255,255,0.1);
+    }
+    
+    .footer-copyright p {
+      color: #999;
+      font-size: 0.8rem;
+      margin: 0.3rem 0;
+    }
+    
+    /* 移動端優化 */
+    @media screen and (max-width: 768px) {
+      .nav-container {
+        flex-direction: column;
+      }
+      
+      .mobile-menu-toggle {
+        display: block;
+      }
+      
+      .nav-main {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      
+      .nav-right {
+        order: -1;
+        justify-content: space-between;
+        padding: 0.5rem 0;
+      }
+      
+      nav ul {
+        display: none;
+        flex-direction: column;
+        width: 100%;
+      }
+      
+      nav ul.show {
+        display: flex;
+      }
+      
+      nav a {
+        padding: 1rem;
+        border-bottom: 1px solid rgba(255,255,255,0.1);
+      }
+      
+      .logo-container {
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+      
+      .hero {
+        flex-direction: column;
+        margin: 1rem 0;
+      }
+      
+      .hero-content {
+        order: 1;
+        padding: 1.5rem;
+      }
+      
+      .hero-image {
+        order: 2;
+        padding: 1rem;
+      }
+      
+      .container {
+        padding: 0.5rem;
+      }
+      
+      .features {
+        padding: 2rem 0;
+      }
+      
+      .subscription {
+        padding: 2rem 0;
+      }
+      
+      .testimonials {
+        padding: 2rem 0;
+      }
+      
+      .contact {
+        padding: 2rem 0;
+      }
+      
+      .footer-content {
+        padding: 0 1rem;
+      }
+      
+      .footer-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+      
+      .footer-social-section {
+        flex-direction: column;
+        gap: 1.5rem;
+        text-align: center;
+      }
+      
+      .social-icons {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 0.8rem;
+      }
+      
+      .social-link {
+        width: 45px;
+        height: 45px;
+        font-size: 0.7rem;
+      }
+      
+      .footer-qr-code {
+        width: 100px;
+        height: 100px;
+      }
+    }
+    
+    /* 平板電腦優化 */
+    @media screen and (min-width: 769px) and (max-width: 1024px) {
+      .hero {
+        margin: 1.5rem 0;
+      }
+      
+      .hero-content, .hero-image {
+        min-width: 350px;
+      }
+      
+      .features-container {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      
+      .subscription-container {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      
+      .qr-code-container {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+    
+    /* 大螢幕優化 */
+    @media screen and (min-width: 1025px) {
+      .features-container {
+        grid-template-columns: repeat(3, 1fr);
+      }
+      
+      .subscription-container {
+        grid-template-columns: repeat(3, 1fr);
+      }
+      
+      .qr-code-container {
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
+    
+    /* 超小螢幕優化 */
+    @media screen and (max-width: 480px) {
+      .hero-content, .hero-image {
+        min-width: auto;
+        padding: 1rem;
+      }
+      
+      .feature-card, .plan-card {
+        padding: 1.5rem;
+      }
+      
+      .qr-code-container {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+        padding: 1rem;
+      }
+      
+      .nav-cta .cta-button {
+        padding: 0.6rem 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo-container">
+      <img src="CaroBot Logo.png" alt="CaroBot Logo" class="logo-image">
+      <div class="logo">CaroBot</div>
+    </div>
+    <div class="tagline">From playtime to bedtime, from safety to empathy, CaroBot is more than a machine — <br>
+      it's the heartbeat of a smarter, more loving home.<br>
+       </div>
+    <div class="sub-tagline">CaroBot — Because real care begins at home.<br>
+       </div>
+  </header>
+  
+  <nav>
+    <div class="nav-container">
+      <div class="nav-main">
+        <button class="mobile-menu-toggle" onclick="toggleMenu()">☰</button>
+        <ul id="navMenu">
+          <li><a href="#home">Home</a></li>
+          <li><a href="#features">Features</a></li>
+          <li><a href="#qr-code">QR Code</a></li>
+          <li><a href="#subscription">Subscription</a></li>
+          <li><a href="#testimonials">Review</a></li>
+          <li><a href="#video">Video</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+        <div class="nav-right">
+          <div class="language-dropdown">
+            <button class="dropbtn">language ▼</button>
+            <div class="dropdown-content">
+              <a href="index-en.html">English</a>
+              <a href="index-zh.html">Mandarin</a>
+              <a href="index-ja.html">Japanese</a>
+              <a href="index-ar.html">العربية</a>
+              <a href="index-ko.html">한국어</a>
+              <a href="index-de.html">Deutsch</a>
+              <a href="index-de.html">Cantonese</a>
+            </div>
+          </div>
+          <div class="nav-cta">
+            <button class="cta-button">Experience Now</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+  
+  <!-- 第一個 Hero 區塊 -->
+  <section id="home" class="hero">
+    <div class="hero-content">
+      <h2 class="hero-title">Meet CaroBot — The only family member who never complains, never gets tired, and never forgets grandma's pills. 😄</h2>
+      <p class="hero-text">「Whether it's reading bedtime stories, reminding dad to stretch his back, or teaching your kid to say "thank you" in five languages, CaroBot's got your family covered — 24/7.<br>
+        <br>
+        Powered by empathy, driven by AI, and fueled by love (and maybe just a little electricity⚡), CaroBot is the next big thing in home care.<br>
+        <br>
+        'cause Siri can't give hugs. CaroBot can.」
+      </p>
+      <button class="cta-button" style="width: 100%;">Learn More</button>
+    </div>
+    <div class="hero-image">
+      <img src="Peggy group CaroBot image.png" alt="CaroBot陪伴機器人與長者及兒童互動" width="600" height="990">
+    </div>
+  </section>
+  
+  <!-- 第二個 Hero 區塊 -->
+  <section class="hero">
+    <div class="hero-content">
+      <h2 class="hero-title">"📝 CaroBot: The Smartest Hug at Home."</h2>
+      <p class="hero-text">
+        ✔ Dual-mode design for both kids and elders<br>
+        ✔ 24/7 monitoring and emotional interaction<br>
+        ✔ AI-powered storytelling, reminder, and medical tracking<br>
+        ✔ IoT integration for a connected smart home<br>
+        ✔ Personalizable interface and voice to match your family vibe<br>
+        <br>
+        📦 Coming soon – Let your loved ones be seen, heard, and never feel alone.
+      </p>
+      <a href="smart-companion.html" style="text-decoration: none; display: inline-block; width: 100%;">
+        <button class="cta-button" style="width: 100%;">Learn More</button>
+      </a>
+    </div>
+    <div class="hero-image">
+      <img src="Peggy group CaroBot image1.png" alt="CaroBot功能展示" width="600" height="990">
+    </div>
+  </section>
+  
+  <section id="features" class="features">
+    <div class="container">
+      <h2 class="section-title">Features</h2>
+      <div class="features-container">
+        <div class="feature-card">
+          <div class="feature-icon">🎯</div>
+          <h3 class="feature-title">Target Users</h3>
+          <p class="feature-text">
+            • Parents with young children<br>
+            • Adult children caring for aging parents<br>
+            • Caregivers and busy households<br>
+          </p>
+        </div>
+        
+        <div class="feature-card">
+          <div class="feature-icon">🌍</div>
+          <h3 class="feature-title">Competitive Edge</h3>
+          <p class="feature-text">
+            • Dual-mode (👶 + 👵) design<br>
+            • Emotional recognition technology<br>
+            • Multilingual voice support<br>
+            • Always patient, never tired<br>
+          </p>
+        </div>
+        
+        <div class="feature-card">
+          <div class="feature-icon">🚀</div>
+          <h3 class="feature-title">Market Potential</h3>
+          <p class="feature-text">
+            • Global eldercare market<br>
+            • High demand in East Asia<br>
+            • Affordable caregiving solutions<br>
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <!-- QR Code 區塊 -->
+  <section id="qr-code" class="qr-code-section">
+    <div class="container">
+      <h2 class="section-title">Scan the QR Code to discover more</h2>
+      <div class="qr-code-container">
+        <img src="配吉小助手QRcode.jpeg" alt="QR Code to CaroBot">
+        <img src="English grammar assistant QRcode.jpeg" alt="QR Code to CaroBot">
+        <img src="商務會議英文 QRcode.png" alt="QR Code to CaroBot">
+        <img src="商用英文書信 QRcode.png" alt="QR Code to CaroBot">
+      </div>
+    </div>
+  </section>
+
+  <section id="subscription" class="subscription">
+    <div class="container">
+      <h2 class="section-title" style="color: white;">Subscription</h2>
+      <div class="subscription-container">
+        <div class="plan-card">
+          <h3 class="plan-title">Basic</h3>
+          <div class="plan-price">NT$ 690<small>/mon</small></div>
+          <ul class="plan-features">
+            <li>Child Engagement Module</li>
+            <li>Elder Support Module</li>
+            <li>Voice Interaction Hub</li>
+            <li>Smart Safety Guardian</li>
+            <li>Health Insights Platform</li>
+          </ul>
+          <button class="cta-button" style="width: 100%;">Subscribe</button>
+        </div>
+        
+        <div class="plan-card">
+          <h3 class="plan-title">Plus</h3>
+          <div class="plan-price">NT$ 1,190<small>/mon</small></div>
+          <ul class="plan-features">
+            <li>All basic functions</li>
+            <li>Academic Coaching</li>
+            <li>Fall detection& emergency alerts</li>
+            <li>Multilingual voice support</li>
+            <li>Facial recognition</li>
+          </ul>
+          <button class="cta-button" style="width: 100%;">Subscribe</button>
+        </div>
+        
+        <div class="plan-card">
+          <h3 class="plan-title">Pro</h3>
+          <div class="plan-price">NT$ 1,990<small>/mon</small></div>
+          <ul class="plan-features">
+            <li>All plus functions</li>
+            <li>Smart scheduling & habit learning</li>
+            <li>Grammar Precision Toolkit</li>
+            <li>Encrypted Communication Vault</li>
+            <li>Concierge-Level Technical Support</li>
+          </ul>
+          <button class="cta-button" style="width: 100%;">Subscribe</button>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <section id="testimonials" class="testimonials">
+    <div class="container">
+      <h2 class="section-title">Review</h2>
+      
+      <div class="testimonial-card">
+        <p class="testimonial-text">"自從家中有了CaroBot，我不在家時也能放心許多。媽媽每天都能準時吃藥，而且CaroBot會陪她聊天，讓她不會感到寂寞。"</p>
+        <p class="testimonial-author">- 林小姐，照顧80歲母親的上班族</p>
+      </div>
+      
+      <div class="testimonial-card">
+        <p class="testimonial-text">"我的孩子們非常喜歡CaroBot！它不僅會說故事，還會幫助他們練習英語，而且能夠自動監測他們是否靠近危險區域，讓我能更安心地做家務。"</p>
+        <p class="testimonial-author">- 王太太，兩個孩子的母親</p>
+      </div>
+      
+      <div class="testimonial-card">
+        <p class="testimonial-text">"商務英文助手功能真的非常實用！我經常需要撰寫英文郵件，CaroBot不僅能幫我檢查文法，還能提供專業的商務用語建議，大大提高了我的工作效率。"</p>
+        <p class="testimonial-author">- 張先生，國際貿易公司經理</p>
+      </div>
+    </div>
+  </section>
+      
+  <section id="video" class="video-section">
+    <div class="container">
+      <h3 class="section-title">Video</h3>
+      <video controls preload="metadata">
+        <source src="local_oqNbJcZ1xP_720p.MP4" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+
+      <video controls preload="metadata">
+        <source src="local_VWDLVkvHBc_720p.MP4" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+
+      <video controls preload="metadata">
+        <source src="local_xWkXcsVLP7_720p.MP4" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+    </div>
+  </section>
+  
+  <section id="contact" class="contact">
+    <div class="container">
+      <h2 class="section-title" style="color: white;">Contact</h2>
+      <div class="contact-form">
+        <div class="form-group">
+          <label class="form-label">Name</label>
+          <input type="text" class="form-input" placeholder="請輸入您的姓名">
+        </div>
+        
+        <div class="form-group">
+          <label class="form-label">E-mail</label>
+          <input type="email" class="form-input" placeholder="請輸入您的電子郵件">
+        </div>
+        
+        <div class="form-group">
+          <label class="form-label">Phone</label>
+          <input type="tel" class="form-input" placeholder="請輸入您的電話號碼">
+        </div>
+        
+        <div class="form-group">
+          <label class="form-label">Message</label>
+          <textarea class="form-input" placeholder="請輸入您的訊息或問題"></textarea>
+        </div>
+        
+        <button class="cta-button" style="width: 100%;">Send</button>
+      </div>
+    </div>
+  </section>
+  
+  <footer>
+    <div class="footer-content">
+      <div class="footer-grid">
+        <!-- 公司資訊 -->
+        <div class="footer-column">
+          <h3>CaroBot 智能陪伴機器人</h3>
+          <p class="company-subtitle">since 2025</p>
+          <div class="company-info">
+            <p>• AI智能陪伴解決方案</p>
+            <p>• 雙模式兒童長者照護</p>
+            <p>• 多語言情感互動技術</p>
+            <p>• IoT智慧家庭整合</p>
+          </div>
+          
+          <div class="service-hours">
+            <h4>客服時間</h4>
+            <p>週一至週日 24hrs</p>
+          </div>
+        </div>
+
+        <!-- 服務據點 -->
+        <div class="footer-column">
+          <h3>服務據點</h3>
+          
+          <div class="location-block">
+            <h4>台灣 台北</h4>
+            <p>02-5201314</p>
+            <p>忠孝東路走九遍</p>
+            <p class="parking">(免費停車場)</p>
+          </div>
+          
+          <div class="location-block">
+            <h4>台灣 台中</h4>
+            <p>04-1234567</p>
+            <p>七期新市政中心</p>
+            <p class="parking">(免費停車場)</p>
+          </div>
+        </div>
+
+        <!-- 企業集團與聯絡 -->
+        <div class="footer-column">
+          <h3>CaroBot 科技集團</h3>
+          
+          <div class="group-info">
+            <h4>日本 東京</h4>
+            <p>+81-3-1234-5678</p>
+            <p>東京都千代田區神田神保町1-2-3</p>
+          </div>
+          
+          <div class="group-info">
+            <h4>美國 矽谷</h4>
+            <p>+1-650-123-4567</p>
+            <p>1234 Innovation Drive, Palo Alto</p>
+          </div>
+          
+          <div class="contact-section">
+            <h4>業務聯繫</h4>
+            <p>網站設計：Peggy</p>
+            <p>info@carobot.com.tw</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 社群媒體與QR Code -->
+      <div class="footer-social-section">
+        <div class="social-icons">
+          <a href="#" class="social-link">LINE</a>
+          <a href="#" class="social-link">FB</a>
+          <a href="#" class="social-link">IG</a>
+          <a href="#" class="social-link">YT</a>
+          <a href="#" class="social-link">TW</a>
+          <a href="#" class="social-link">LI</a>
+        </div>
+        <div class="footer-qr-container">
+          <img src="CaroBot LINE.jpeg" alt="LINE QR Code" class="footer-qr-code">
+          <p class="qr-description">掃描加入官方LINE</p>
+        </div>
+      </div>
+
+      <!-- 版權信息 -->
+      <div class="footer-copyright">
+        <p>© 本公司由 CaroBot AI科技集團 方炯鑌律師 擔任法律顧問</p>
+        <p>© 2025 CaroBot All rights reserved </p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    function toggleMenu() {
+      const navMenu = document.getElementById('navMenu');
+      navMenu.classList.toggle('show');
+    }
+
+    // 點擊導航連結後關閉選單 (移動端)
+    document.querySelectorAll('nav a').forEach(link => {
+      link.addEventListener('click', () => {
+        const navMenu = document.getElementById('navMenu');
+        navMenu.classList.remove('show');
+      });
+    });
+
+    // 平滑滾動到錨點
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+          });
+        }
+      });
+    });
+
+    // 視窗大小改變時關閉選單
+    window.addEventListener('resize', () => {
+      if (window.innerWidth > 768) {
+        const navMenu = document.getElementById('navMenu');
+        navMenu.classList.remove('show');
+      }
+    });
